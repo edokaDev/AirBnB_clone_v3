@@ -3,6 +3,7 @@
 from api.v1.views import app_views
 from flask import abort, jsonify, make_response, request
 from models import storage
+from models.user import User
 
 
 @app_views.route('/users', methods=['GET'])
@@ -47,7 +48,7 @@ def create_user():
     if 'email' not in payload:
         return make_response({'error': 'Missing email'}, 400)
 
-    user = user(**payload)
+    user = User(**payload)
     user.save()
     return make_response(user.to_dict(), 201)
 

@@ -3,6 +3,7 @@
 from api.v1.views import app_views
 from flask import abort, jsonify, make_response, request
 from models import storage
+from models.amenity import Amenity
 
 
 @app_views.route('/amenities', methods=['GET'])
@@ -46,7 +47,7 @@ def create_amenity():
         return make_response({'error': 'Missing name'}, 400)
 
     name = payload.get('name')
-    amenity = amenity(name=name)
+    amenity = Amenity(name=name)
     amenity.save()
     return make_response(amenity.to_dict(), 201)
 
