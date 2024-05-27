@@ -48,7 +48,14 @@ def create_user():
     if 'email' not in payload:
         return make_response({'error': 'Missing email'}, 400)
 
-    user = User(**payload)
+    email = payload.get('email')
+    password = payload.get('password')
+    first_name = payload.get('first_name')
+    last_name = payload.get('last_name')
+    user = User(email=email,
+                password=password,
+                first_name=first_name,
+                last_name=last_name)
     user.save()
     return make_response(user.to_dict(), 201)
 
