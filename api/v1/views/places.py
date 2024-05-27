@@ -3,15 +3,19 @@
 from api.v1.views import app_views
 from flask import abort, jsonify, make_response, request
 from models import storage
+from models.place import Place
 
 
-@app_views.route('/places', methods=['GET'])
-def all_places():
+@app_views.route('/cities/<city_id>/places', methods=['GET'])
+def all_places(city_id):
     """Retrieve all places."""
-    all = storage.all('Place')
+    city = storage.get('City', city_id)
+    if city is None:
+        abort(404)
+    places = city.places
     result = []
-    for key, value in all.items():
-        result.append(value.to_dict())
+    for place in places:
+        result.append(place.to_dict())
     return make_response(jsonify(result))
 
 
@@ -34,9 +38,12 @@ def delete_place(place_id):
     abort(404)
 
 
-@app_views.route('/places', methods=['POST'])
-def create_place():
+@app_views.route('/cities/<city_id>/places', methods=['POST'])
+def create_place(city_id):
     """Create a place."""
+    city = storage.get('City', city_id)
+    if city is None:
+        abort(404)
     try:
         payload = request.get_json()
     except Exception as e:
@@ -55,7 +62,7 @@ def create_place():
     if 'email' not in payload:
         return make_response({'error': 'Missing email'}, 400)
 
-    place = place(**payload)
+    place = Place(**payload, city_id=city_id)
     place.save()
     return make_response(place.to_dict(), 201)
 
