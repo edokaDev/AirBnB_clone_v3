@@ -62,7 +62,8 @@ def create_review(place_id):
     if 'email' not in payload:
         return make_response({'error': 'Missing email'}, 400)
 
-    review = Review(**payload, place_id=place_id)
+    review = Review(**payload)
+    review.place_id = place_id
     review.save()
     return make_response(review.to_dict(), 201)
 

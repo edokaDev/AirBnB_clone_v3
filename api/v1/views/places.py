@@ -62,7 +62,8 @@ def create_place(city_id):
     if 'email' not in payload:
         return make_response({'error': 'Missing email'}, 400)
 
-    place = Place(**payload, city_id=city_id)
+    place = Place(**payload)
+    place.city_id = city_id
     place.save()
     return make_response(place.to_dict(), 201)
 
