@@ -36,6 +36,7 @@ def delete_user(user_id):
     user = storage.get('User', user_id)
     if user:
         storage.delete(user)
+        storage.save()
         return make_response({}, 200)
     abort(404)
 

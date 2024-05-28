@@ -37,6 +37,7 @@ def delete_review(review_id):
     review = storage.get('review', review_id)
     if review:
         storage.delete(review)
+        storage.save()
         return make_response({}, 200)
     abort(404)
 

@@ -37,6 +37,7 @@ def delete_place(place_id):
     place = storage.get('Place', place_id)
     if place:
         storage.delete(place)
+        storage.save()
         return make_response({}, 200)
     abort(404)
 

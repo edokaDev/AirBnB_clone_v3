@@ -37,6 +37,7 @@ def delete_state(state_id):
     state = storage.get('State', state_id)
     if state:
         storage.delete(state)
+        storage.save()
         return make_response({}, 200)
     abort(404)
 
