@@ -7,7 +7,8 @@ from models.state import State
 from models.city import City
 
 
-@app_views.route('/states/<state_id>/cities', methods=['GET'])
+@app_views.route('/states/<state_id>/cities', methods=['GET'],
+                 strict_slashes=False)
 def all_cities(state_id):
     """Retrieve all cities."""
     state = storage.get('State', state_id)
@@ -20,7 +21,8 @@ def all_cities(state_id):
     return make_response(jsonify(result))
 
 
-@app_views.route('/cities/<city_id>', methods=['GET'])
+@app_views.route('/cities/<city_id>', methods=['GET'],
+                 strict_slashes=False)
 def one_city(city_id):
     """Retrieve one state."""
     city = storage.get('City', city_id)
@@ -29,7 +31,8 @@ def one_city(city_id):
     return make_response(city.to_dict(), 200)
 
 
-@app_views.route('/cities/<city_id>', methods=['DELETE'])
+@app_views.route('/cities/<city_id>', methods=['DELETE'],
+                 strict_slashes=False)
 def delete_city(city_id):
     """Delete a city."""
     city = storage.get('City', city_id)
@@ -39,7 +42,8 @@ def delete_city(city_id):
     return make_response({}, 200)
 
 
-@app_views.route('/states/<state_id>/cities', methods=['POST'])
+@app_views.route('/states/<state_id>/cities', methods=['POST'],
+                 strict_slashes=False)
 def create_city(state_id):
     """Create a city."""
     try:
@@ -60,7 +64,8 @@ def create_city(state_id):
     return make_response(city.to_dict(), 201)
 
 
-@app_views.route('/cities/<city_id>', methods=['PUT'])
+@app_views.route('/cities/<city_id>', methods=['PUT'],
+                 strict_slashes=False)
 def update_city(city_id):
     """Update a City."""
     city = storage.get('City', city_id)
